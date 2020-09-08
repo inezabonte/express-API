@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
 
 // Connect to DB
 //The username and password are stored in a dotenv file for security
-mongoose.connect(process.env.KEY, {useNewUrlParser: true, useUnifiedTopology: true}, () => console.log("Connected to DB"))
+mongoose.connect(process.env.DB_CONNECTION, {useNewUrlParser: true, useUnifiedTopology: true}, () => console.log("Connected to DB"))
 
 const port  = process.env.PORT || 3000
 
