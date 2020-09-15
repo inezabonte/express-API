@@ -1,10 +1,15 @@
 const express = require("express");
 const router = express.Router();
-const newArticle = require("../models/articles");
+const Article = require("../models/articles");
 
 //show list of articles
-router.get("/", (req, res) => {
-  res.send("This is the blog page");
+router.get("/", async (req, res) => {
+  try {
+    const articles = await Article.find();
+    res.json(articles);
+  } catch (error) {
+    res.json({ message: error });
+  }
 });
 
 //show the article itself
@@ -19,7 +24,7 @@ router.get("/newArticle", (req, res) => {
 
 //post a new article
 router.post("/newArticle", async (req, res) => {
-  const article = new newArticle({
+  const article = new Article({
     title: req.body.title,
     coverImage: req.body.coverImage,
     content: req.body.content,
