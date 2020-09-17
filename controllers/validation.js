@@ -22,5 +22,16 @@ const messageValidation = (data) => {
   return schema.validate(data);
 };
 
+//validate a user login
+const userValidation = (data) => {
+  const schema = Joi.object({
+    email: Joi.string().required().email(),
+    password: Joi.string().required(),
+  });
+
+  return schema.validate(data);
+};
+
 module.exports.articleValidation = articleValidation;
 module.exports.messageValidation = messageValidation;
+module.exports.userValidation = userValidation;
