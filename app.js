@@ -4,9 +4,10 @@ const app = express();
 const bodyParser = require("body-parser");
 require("dotenv/config");
 
+//middleware
 app.use(bodyParser.json());
 
-//import the routes
+//route middleware
 require("./routes/index")(app);
 
 // Connect to DB

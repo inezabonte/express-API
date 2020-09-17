@@ -1,25 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const Messages = require("../models/contact");
+const dashboardController = require("../controllers/dashboard");
 
 //the main dashboard page
-router.get("/", (req, res) => {
-  res.send("You are on the dashboard page");
-});
+router.get("/", dashboardController.dashboard);
 
 //profile page on the dashboard
-router.get("/profile", (req, res) => {
-  res.send("You are on the profile page");
-});
+router.get("/profile", dashboardController.profile);
 
 //queries page on the dashboard page
-router.get("/queries", async (req, res) => {
-  try {
-    const messages = await Messages.find();
-    res.json(messages);
-  } catch (error) {
-    res.json({ message: error });
-  }
-});
+router.get("/queries", dashboardController.queries);
 
 module.exports = router;
