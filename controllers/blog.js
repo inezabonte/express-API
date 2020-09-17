@@ -1,12 +1,5 @@
 const Article = require("../models/articles");
-const Joi = require("joi");
-
-//validation schema
-const schema = Joi.object({
-  title: Joi.string().required(),
-  coverImage: Joi.string().required(),
-  content: Joi.string().required(),
-});
+const { articleValidation } = require("./validation");
 
 //retrieve all the articles
 module.exports.getArticle = async (req, res) => {
@@ -21,7 +14,7 @@ module.exports.getArticle = async (req, res) => {
 //post a new article
 module.exports.postArticle = async (req, res) => {
   //validation
-  const { error } = schema.validate(req.body);
+  const { error } = articleValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
   const article = new Article({
