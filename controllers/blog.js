@@ -34,3 +34,13 @@ module.exports.postArticle = async (req, res) => {
 module.exports.newArticle = (req, res) => {
   res.send("This is where you create a new article");
 };
+
+//retrieving a specific article
+module.exports.blog_specific = async (req, res) => {
+  try {
+    const post = await Article.findById(req.params.postId);
+    res.json(post);
+  } catch (error) {
+    res.json({ message: error });
+  }
+};
