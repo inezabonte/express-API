@@ -1,40 +1,18 @@
 const express = require("express");
 const router = express.Router();
-const Article = require("../models/articles");
+const blogController = require("../controllers/blog");
+const verify = require("../middlewares/auth");
 
 //show list of articles
-router.get("/", async (req, res) => {
-  try {
-    const articles = await Article.find();
-    res.json(articles);
-  } catch (error) {
-    res.json({ message: error });
-  }
-});
+router.get("/", blogController.getArticle);
 
-//show the article itself
-router.get("/showArticle", (req, res) => {
-  res.send("This is where you can read the article itself");
-});
-
-//create a new article
-router.get("/newArticle", (req, res) => {
-  res.send("This is where you create a new article");
-});
+//new article page
+router.get("/newArticle", verify, blogController.newArticle);
 
 //post a new article
-router.post("/newArticle", async (req, res) => {
-  const article = new Article({
-    title: req.body.title,
-    coverImage: req.body.coverImage,
-    content: req.body.content,
-  });
-  try {
-    const savedArticle = await article.save();
-    res.json(savedArticle);
-  } catch (err) {
-    res.json({ message: err });
-  }
-});
+router.post("/newArticle", verify, blogController.postArticle);
+
+//get a specific post
+router.get("/:postId", blogController.blog_specific);
 
 module.exports = router;
