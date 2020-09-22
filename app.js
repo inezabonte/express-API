@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const app = express();
 const bodyParser = require("body-parser");
 const fileupload = require("express-fileupload");
-const { func } = require("joi");
 require("dotenv/config");
 
 //middleware
