@@ -1,5 +1,6 @@
 const Article = require("../models/articles");
 const { articleValidation } = require("./validation");
+const { uploadImage } = require("./uploadImage");
 
 //retrieve all the articles
 module.exports.getArticle = async (req, res) => {
@@ -13,6 +14,14 @@ module.exports.getArticle = async (req, res) => {
 
 //post a new article
 module.exports.postArticle = async (req, res) => {
+  //upload the coverImage to cloudinary
+  try {
+    let coverImage = await uploadImage(req.files.coverImage);
+    req.body.coverImage = coverImage;
+  } catch (error) {
+    res.json(error);
+  }
+
   //validation
   const { error } = articleValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
@@ -22,11 +31,12 @@ module.exports.postArticle = async (req, res) => {
     coverImage: req.body.coverImage,
     content: req.body.content,
   });
+
   try {
     const savedArticle = await article.save();
     res.json(savedArticle);
   } catch (err) {
-    res.json({ message: err });
+    res.send(err.message);
   }
 };
 
