@@ -2,10 +2,18 @@ const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 const bodyParser = require("body-parser");
+const fileupload = require("express-fileupload");
 require("dotenv/config");
 
 //middleware
 app.use(bodyParser.json());
+
+//uploading images
+app.use(
+  fileupload({
+    useTempFiles: true,
+  })
+);
 
 //route middleware
 require("./routes/index")(app);
