@@ -1,6 +1,6 @@
 const Article = require("../models/articles");
 const Comments = require("../models/comments");
-const { articleValidation } = require("./validation");
+const { articleValidation, commentValidation } = require("./validation");
 const { uploadImage } = require("./uploadImage");
 const { object } = require("joi");
 
@@ -61,6 +61,9 @@ module.exports.blog_specific = async (req, res) => {
 
 //posting comments to an article
 module.exports.postComments = async (req, res) => {
+  const { error } = commentValidation(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
   const comment = new Comments({
     name: req.body.name,
     discussion: req.body.discussion,
