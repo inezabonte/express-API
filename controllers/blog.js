@@ -2,6 +2,7 @@ const Article = require("../models/articles");
 const Comments = require("../models/comments");
 const { articleValidation } = require("./validation");
 const { uploadImage } = require("./uploadImage");
+const { object } = require("joi");
 
 //retrieve all the articles
 module.exports.getArticle = async (req, res) => {
@@ -49,8 +50,10 @@ module.exports.newArticle = (req, res) => {
 //retrieving a specific article
 module.exports.blog_specific = async (req, res) => {
   try {
-    const post = await Article.findById(req.params.postId);
-    res.json(post);
+    let jsonArray = {};
+    jsonArray.post = await Article.find({ _id: req.params.postId });
+    jsonArray.comments = await Comments.find({ blogId: req.params.postId });
+    res.json(jsonArray);
   } catch (error) {
     res.json({ message: error });
   }
