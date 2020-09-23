@@ -5,6 +5,7 @@ const {
   postArticle,
   getArticle,
   blog_specific,
+  postComments,
 } = require("../controllers/blog");
 const verify = require("../middlewares/auth");
 
@@ -19,5 +20,8 @@ router.post("/newArticle", verify, postArticle);
 
 //get a specific post
 router.get("/:postId", blog_specific);
+
+//posting comments
+router.post("/:postId", verify, postComments);
 
 module.exports = router;

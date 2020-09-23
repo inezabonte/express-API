@@ -1,4 +1,5 @@
 const Article = require("../models/articles");
+const Comments = require("../models/comments");
 const { articleValidation } = require("./validation");
 const { uploadImage } = require("./uploadImage");
 
@@ -52,5 +53,21 @@ module.exports.blog_specific = async (req, res) => {
     res.json(post);
   } catch (error) {
     res.json({ message: error });
+  }
+};
+
+//posting comments to an article
+module.exports.postComments = async (req, res) => {
+  const comment = new Comments({
+    name: req.body.name,
+    discussion: req.body.discussion,
+    blogId: req.params.postId,
+  });
+
+  try {
+    const savedComment = await comment.save();
+    res.json(savedComment);
+  } catch (error) {
+    res.send(error.message);
   }
 };
