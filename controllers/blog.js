@@ -1,6 +1,8 @@
 const Article = require("../models/articles");
-const { articleValidation } = require("./validation");
+const Comments = require("../models/comments");
+const { articleValidation, commentValidation } = require("./validation");
 const { uploadImage } = require("./uploadImage");
+const { object } = require("joi");
 
 //retrieve all the articles
 module.exports.getArticle = async (req, res) => {
@@ -48,9 +50,30 @@ module.exports.newArticle = (req, res) => {
 //retrieving a specific article
 module.exports.blog_specific = async (req, res) => {
   try {
-    const post = await Article.findById(req.params.postId);
-    res.json(post);
+    let jsonArray = {};
+    jsonArray.post = await Article.find({ _id: req.params.postId });
+    jsonArray.comments = await Comments.find({ blogId: req.params.postId });
+    res.json(jsonArray);
   } catch (error) {
     res.json({ message: error });
+  }
+};
+
+//posting comments to an article
+module.exports.postComments = async (req, res) => {
+  const { error } = commentValidation(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
+  const comment = new Comments({
+    name: req.body.name,
+    discussion: req.body.discussion,
+    blogId: req.params.postId,
+  });
+
+  try {
+    const savedComment = await comment.save();
+    res.json(savedComment);
+  } catch (error) {
+    res.send(error.message);
   }
 };

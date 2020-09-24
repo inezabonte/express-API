@@ -32,6 +32,17 @@ const userValidation = (data) => {
   return schema.validate(data);
 };
 
+//validate user comment
+const commentValidation = (data) => {
+  const schema = Joi.object({
+    name: Joi.string().required(),
+    discussion: Joi.string().required(),
+  });
+
+  return schema.validate(data);
+};
+
 module.exports.articleValidation = articleValidation;
 module.exports.messageValidation = messageValidation;
 module.exports.userValidation = userValidation;
+module.exports.commentValidation = commentValidation;
