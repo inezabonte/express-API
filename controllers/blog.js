@@ -2,7 +2,6 @@ const Article = require("../models/articles");
 const Comments = require("../models/comments");
 const { articleValidation, commentValidation } = require("./validation");
 const { uploadImage } = require("./uploadImage");
-const { object } = require("joi");
 
 //retrieve all the articles
 module.exports.getArticle = async (req, res) => {
