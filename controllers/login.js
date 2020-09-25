@@ -1,9 +1,9 @@
-const User = require("../models/user");
-const { userValidation } = require("./validation");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+import User from "../models/user";
+import { userValidation } from "./validation";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
-module.exports.login = async (req, res) => {
+const login = async (req, res) => {
   const { error } = userValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -19,3 +19,5 @@ module.exports.login = async (req, res) => {
   const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
   res.header("auth-token", token).send(token);
 };
+
+export default { login };

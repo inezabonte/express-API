@@ -2,8 +2,8 @@ import express from "express";
 import verify from "../middlewares/auth";
 import { default as blogControl } from "../controllers/blog";
 import { default as contactController } from "../controllers/contact";
-import dashboardController from "../controllers/dashboard";
-import loginController from "../controllers/login";
+import { default as dashboardController } from "../controllers/dashboard";
+import { default as loginController } from "../controllers/login";
 
 const router = express.Router();
 

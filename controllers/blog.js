@@ -15,17 +15,11 @@ const getArticle = async (req, res) => {
 
 //post a new article
 const postArticle = async (req, res) => {
-  //upload the coverImage to cloudinary
-  if (req.files) {
-    try {
-      let coverImage = await uploadImage(req.files.coverImage);
-      req.body.coverImage = coverImage;
-    } catch (error) {
-      res.json({ error });
-    }
-  } else {
-    res.send("coverImage is required");
-  }
+  // upload image
+  if (!req.files) return res.status(400).send("Image cannot be empty");
+  const coverImage = await uploadImage(req.files.coverImage);
+  if (coverImage == undefined) return res.send("coverImage cannot be empty");
+  req.body.coverImage = coverImage;
 
   //validation
   const { error } = articleValidation(req.body);
