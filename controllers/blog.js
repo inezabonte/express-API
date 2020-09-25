@@ -1,10 +1,10 @@
-const Article = require("../models/articles");
-const Comments = require("../models/comments");
-const { articleValidation, commentValidation } = require("./validation");
-const { uploadImage } = require("./uploadImage");
+import Article from "../models/articles";
+import Comments from "../models/comments";
+import { articleValidation, commentValidation } from "./validation";
+import { uploadImage } from "./uploadImage";
 
 //retrieve all the articles
-module.exports.getArticle = async (req, res) => {
+const getArticle = async (req, res) => {
   try {
     const articles = await Article.find();
     res.json(articles);
@@ -14,13 +14,17 @@ module.exports.getArticle = async (req, res) => {
 };
 
 //post a new article
-module.exports.postArticle = async (req, res) => {
+const postArticle = async (req, res) => {
   //upload the coverImage to cloudinary
-  try {
-    let coverImage = await uploadImage(req.files.coverImage);
-    req.body.coverImage = coverImage;
-  } catch (error) {
-    res.json(error);
+  if (req.files) {
+    try {
+      let coverImage = await uploadImage(req.files.coverImage);
+      req.body.coverImage = coverImage;
+    } catch (error) {
+      res.json({ error });
+    }
+  } else {
+    res.send("coverImage is required");
   }
 
   //validation
@@ -42,12 +46,12 @@ module.exports.postArticle = async (req, res) => {
 };
 
 //response when visiting the newArticle page
-module.exports.newArticle = (req, res) => {
+const newArticle = (req, res) => {
   res.send("This is where you create a new article");
 };
 
 //retrieving a specific article
-module.exports.blog_specific = async (req, res) => {
+const blog_specific = async (req, res) => {
   try {
     let jsonArray = {};
     jsonArray.post = await Article.find({ _id: req.params.postId });
@@ -59,7 +63,7 @@ module.exports.blog_specific = async (req, res) => {
 };
 
 //posting comments to an article
-module.exports.postComments = async (req, res) => {
+const postComments = async (req, res) => {
   const { error } = commentValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -75,4 +79,12 @@ module.exports.postComments = async (req, res) => {
   } catch (error) {
     res.send(error.message);
   }
+};
+
+export default {
+  getArticle,
+  postArticle,
+  newArticle,
+  blog_specific,
+  postComments,
 };

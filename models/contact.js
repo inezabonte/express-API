@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+import { Schema, model } from "mongoose";
 
-const contactSchema = mongoose.Schema({
+const contactSchema = Schema({
   name: {
     type: String,
     required: true,
@@ -20,4 +20,4 @@ const contactSchema = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("query", contactSchema);
+export default model("query", contactSchema);

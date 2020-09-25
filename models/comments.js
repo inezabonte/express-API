@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+import { Schema, model } from "mongoose";
 
-const commentsScehma = mongoose.Schema({
+const commentsScehma = Schema({
   name: {
     type: String,
     required: true,
@@ -20,4 +20,4 @@ const commentsScehma = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("comment", commentsScehma);
+export default model("comment", commentsScehma);

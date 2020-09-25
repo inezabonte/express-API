@@ -1,9 +1,11 @@
-const express = require("express");
-const mongoose = require("mongoose");
+import express from "express";
+import mongoose from "mongoose";
+import bodyParser from "body-parser";
+import fileupload from "express-fileupload";
+import routes from "./routes/index";
+import "dotenv/config";
+
 const app = express();
-const bodyParser = require("body-parser");
-const fileupload = require("express-fileupload");
-require("dotenv/config");
 
 //middleware
 app.use(bodyParser.json());
@@ -15,8 +17,7 @@ app.use(
   })
 );
 
-//route middleware
-require("./routes/index")(app);
+app.use("/", routes);
 
 // Connect to DB
 //The username and password are stored in a dotenv file for security
