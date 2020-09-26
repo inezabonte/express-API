@@ -7,7 +7,7 @@ import { uploadImage } from "./uploadImage";
 const getArticle = async (req, res) => {
   try {
     const articles = await Article.find();
-    res.json(articles);
+    res.status(200).json(articles);
   } catch (error) {
     res.json({ message: error });
   }
@@ -18,7 +18,8 @@ const postArticle = async (req, res) => {
   // upload image
   if (!req.files) return res.status(400).send("Image cannot be empty");
   const coverImage = await uploadImage(req.files.coverImage);
-  if (coverImage == undefined) return res.send("coverImage cannot be empty");
+  if (coverImage == undefined)
+    return res.status(400).send("coverImage cannot be empty");
   req.body.coverImage = coverImage;
 
   //validation
@@ -33,7 +34,7 @@ const postArticle = async (req, res) => {
 
   try {
     const savedArticle = await article.save();
-    res.json(savedArticle);
+    res.status(201).json(savedArticle);
   } catch (err) {
     res.send(err.message);
   }
@@ -41,7 +42,7 @@ const postArticle = async (req, res) => {
 
 //response when visiting the newArticle page
 const newArticle = (req, res) => {
-  res.send("This is where you create a new article");
+  res.status(200).send("This is where you create a new article");
 };
 
 //retrieving a specific article
@@ -50,9 +51,9 @@ const blog_specific = async (req, res) => {
     let jsonArray = {};
     jsonArray.post = await Article.find({ _id: req.params.postId });
     jsonArray.comments = await Comments.find({ blogId: req.params.postId });
-    res.json(jsonArray);
+    res.status(200).json(jsonArray);
   } catch (error) {
-    res.json({ message: error });
+    res.status(400).json({ message: error });
   }
 };
 
@@ -69,9 +70,9 @@ const postComments = async (req, res) => {
 
   try {
     const savedComment = await comment.save();
-    res.json(savedComment);
+    res.status(200).send("Comment has been posted");
   } catch (error) {
-    res.send(error.message);
+    res.status(400).send(error.message);
   }
 };
 
