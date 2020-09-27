@@ -20,7 +20,7 @@ const postMessage = async (req, res) => {
   }
 };
 
-//response when a get request is done
+//response when requesting the contact page
 const contact = (req, res) => {
   res.send("This is the contact page");
 };

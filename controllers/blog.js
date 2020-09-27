@@ -9,7 +9,7 @@ const getArticle = async (req, res) => {
     const articles = await Article.find();
     res.status(200).json(articles);
   } catch (error) {
-    res.json({ message: error });
+    res.status(404).json({ message: error });
   }
 };
 
