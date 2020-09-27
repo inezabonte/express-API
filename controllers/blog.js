@@ -53,7 +53,7 @@ const blog_specific = async (req, res) => {
     jsonArray.comments = await Comments.find({ blogId: req.params.postId });
     res.status(200).json(jsonArray);
   } catch (error) {
-    res.status(400).json({ message: error });
+    res.status(404).json("Article not found");
   }
 };
 
