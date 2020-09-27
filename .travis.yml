@@ -13,5 +13,4 @@ install:
 script:
   - npm test
 
-services:
-  - mongodb
+services: mongodb
