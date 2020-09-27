@@ -30,7 +30,7 @@ const connection = async () => {
     });
     console.log("Connected to DB");
   } catch (error) {
-    console.log("Unable to connect");
+    console.log(error);
   }
 };
 
