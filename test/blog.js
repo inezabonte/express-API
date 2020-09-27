@@ -4,6 +4,7 @@ import chaiHttp from "chai-http";
 import Articles from "../models/articles";
 import Comments from "../models/comments";
 import "dotenv/config";
+import articles from "../models/articles";
 
 chai.use(chaiHttp);
 
@@ -90,5 +91,41 @@ describe("The Blog Route", () => {
           done();
         });
     });
+
+    //prevent posting empty article
+    it("Should not post an empty article", (done) => {
+      const article = new Articles({});
+      article.save((err, res) => {
+        chai
+          .request(server)
+          .post("/blog/newArticle")
+          .set("auth-token", process.env.AUTH_TOKEN)
+          .send(article)
+          .end((err, res) => {
+            expect(res).to.have.status(400);
+            done(err);
+          });
+      });
+    });
+
+    // //title should be a string
+    // it("Should not post title which is not string", (done) => {
+    //   const article = new Articles({
+    //     coverImage: "Testing image.link",
+    //     content: "Testing content",
+    //     title: "Testing title",
+    //   });
+    //   article.save((err, res) => {
+    //     chai
+    //       .request(server)
+    //       .post("/blog/newArticle")
+    //       .set("auth-token", process.env.AUTH_TOKEN)
+    //       .send(article)
+    //       .end((err, res) => {
+    //         expect(res).to.have.status(200);
+    //         done(err);
+    //       });
+    //   });
+    // });
   });
 });
