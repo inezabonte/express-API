@@ -1,7 +1,7 @@
-const Joi = require("joi");
+import Joi from "joi";
 
 //adding a new article
-const articleValidation = (data) => {
+export const articleValidation = (data) => {
   const schema = Joi.object({
     title: Joi.string().required(),
     coverImage: Joi.string().required(),
@@ -12,7 +12,7 @@ const articleValidation = (data) => {
 };
 
 //validating a message being sent
-const messageValidation = (data) => {
+export const messageValidation = (data) => {
   const schema = Joi.object({
     name: Joi.string().required(),
     email: Joi.string().required().email(),
@@ -23,7 +23,7 @@ const messageValidation = (data) => {
 };
 
 //validate a user login
-const userValidation = (data) => {
+export const userValidation = (data) => {
   const schema = Joi.object({
     email: Joi.string().required().email(),
     password: Joi.string().required(),
@@ -33,7 +33,7 @@ const userValidation = (data) => {
 };
 
 //validate user comment
-const commentValidation = (data) => {
+export const commentValidation = (data) => {
   const schema = Joi.object({
     name: Joi.string().required(),
     discussion: Joi.string().required(),
@@ -41,8 +41,3 @@ const commentValidation = (data) => {
 
   return schema.validate(data);
 };
-
-module.exports.articleValidation = articleValidation;
-module.exports.messageValidation = messageValidation;
-module.exports.userValidation = userValidation;
-module.exports.commentValidation = commentValidation;

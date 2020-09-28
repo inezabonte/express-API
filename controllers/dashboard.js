@@ -1,17 +1,17 @@
-const Messages = require("../models/contact");
+import Messages from "../models/contact";
 
 //display dashboard
-module.exports.dashboard = (req, res) => {
+const dashboard = (req, res) => {
   res.send("You are on the dashboard page");
 };
 
 //profile page
-module.exports.profile = (req, res) => {
+const profile = (req, res) => {
   res.send("You are on the profile page");
 };
 
 //queries page
-module.exports.queries = async (req, res) => {
+const queries = async (req, res) => {
   try {
     const messages = await Messages.find();
     res.json(messages);
@@ -19,3 +19,5 @@ module.exports.queries = async (req, res) => {
     res.json({ message: error });
   }
 };
+
+export default { dashboard, profile, queries };

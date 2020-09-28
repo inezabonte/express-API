@@ -1,8 +1,8 @@
-const Message = require("../models/contact");
-const { messageValidation } = require("./validation");
+import Message from "../models/contact";
+import { messageValidation } from "./validation";
 
 //posting a message
-module.exports.postMessage = async (req, res) => {
+const postMessage = async (req, res) => {
   //validate the data before the message is sent
   const { error } = messageValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
@@ -20,7 +20,9 @@ module.exports.postMessage = async (req, res) => {
   }
 };
 
-//response when a get request is done
-module.exports.contact = (req, res) => {
+//response when requesting the contact page
+const contact = (req, res) => {
   res.send("This is the contact page");
 };
+
+export default { postMessage, contact };
