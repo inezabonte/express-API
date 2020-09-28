@@ -43,7 +43,7 @@ router.post("/blog/newArticle", verify, blogControl.postArticle);
 router.get("/blog/:postId", blogControl.blog_specific);
 
 //posting comments
-router.post("/blog/:postId", verify, blogControl.postComments);
+router.post("/blog/:postId", blogControl.postComments);
 
 //---------------------------------------------------
 

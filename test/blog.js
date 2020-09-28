@@ -4,7 +4,7 @@ import chaiHttp from "chai-http";
 import Articles from "../models/articles";
 import Comments from "../models/comments";
 import "dotenv/config";
-import articles from "../models/articles";
+import fs from "fs";
 
 chai.use(chaiHttp);
 
@@ -108,22 +108,87 @@ describe("The Blog Route", () => {
       });
     });
 
-    // //title should be a string
-    // it("Should not post title which is not string", (done) => {
-    //   const article = new Articles({
-    //     coverImage: "Testing image.link",
-    //     content: "Testing content",
-    //     title: "Testing title",
-    //   });
-    //   article.save((err, res) => {
+    //title should be present
+    it("Should not post article without title", (done) => {
+      chai
+        .request(server)
+        .post("/blog/newArticle")
+        .set("auth-token", process.env.AUTH_TOKEN)
+        .set("Content-Type", "multipart/form-data")
+        .attach("coverImage", fs.readFileSync("./images/code.png"), "code.png")
+        .field("content", "a lot of work")
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          done(err);
+        });
+    });
+
+    //creating a complete article
+    it("Should post article", (done) => {
+      chai
+        .request(server)
+        .post("/blog/newArticle")
+        .set("auth-token", process.env.AUTH_TOKEN)
+        .set("Content-Type", "multipart/form-data")
+        .attach("coverImage", fs.readFileSync("./images/code.png"), "code.png")
+        .field("content", "a lot of work")
+        .field("title", "A big title")
+        .end((err, res) => {
+          if (err) done(err);
+          expect(res).to.have.status(201);
+          expect(res).to.be.a("Object");
+          done();
+        });
+    });
+  });
+
+  describe("/blog/:postId", () => {
+    //prevent posting empty comments
+    it("Should not post an empty comment", (done) => {
+      const blogId = "5f69e2afa5060612f957fb7b";
+      const comment = new Comments({});
+      comment.save((err, res) => {
+        chai
+          .request(server)
+          .post(`/blog/${blogId}`)
+          .send(comment)
+          .end((err, res) => {
+            expect(res).to.have.status(400);
+            done(err);
+          });
+      });
+    });
+
+    //Posting a comment with incorrect blogId
+    it("Shouldn't post a comment with incorrect blogId", (done) => {
+      const blogId = "5f69e2afa50612f957fb7b";
+      const comment = new Comments({
+        name: "Mark Cuban",
+        discussion: "Great Article",
+        blogId: blogId,
+      });
+      comment.save((err, res) => {
+        chai
+          .request(server)
+          .post(`/blog/${blogId}`)
+          .send(comment)
+          .end((err, res) => {
+            expect(res).to.have.status(404);
+            done(err);
+          });
+      });
+    });
+
+    // it("Should confirm article exists", (done) => {
+    //   const blogId = "5f69e2afa5060612f957fb7b";
+    //   Articles.exists({ _id: blogId }, (err, res) => {
     //     chai
     //       .request(server)
-    //       .post("/blog/newArticle")
-    //       .set("auth-token", process.env.AUTH_TOKEN)
-    //       .send(article)
+    //       .post(`/blog/${blogId}`)
     //       .end((err, res) => {
+    //         if (err) done(err);
     //         expect(res).to.have.status(200);
-    //         done(err);
+    //         done();
     //       });
     //   });
     // });

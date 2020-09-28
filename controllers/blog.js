@@ -69,8 +69,15 @@ const postComments = async (req, res) => {
   });
 
   try {
+    const articleExist = await Article.exists({ _id: req.params.postId });
+    res.status(200).send("Article exists");
+  } catch (error) {
+    return res.status(404).send("Article does not exist");
+  }
+
+  try {
     const savedComment = await comment.save();
-    res.status(200).send("Comment has been posted");
+    res.status(201).send("Comment has been posted");
   } catch (error) {
     res.status(400).send(error.message);
   }
