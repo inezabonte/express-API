@@ -48,6 +48,12 @@ const newArticle = (req, res) => {
 //retrieving a specific article
 const blog_specific = async (req, res) => {
   try {
+    const exist = await Article.exists({ _id: req.params.postId });
+  } catch (error) {
+    return res.status(404).send("Article not found");
+  }
+
+  try {
     let jsonArray = {};
     jsonArray.post = await Article.find({ _id: req.params.postId });
     jsonArray.comments = await Comments.find({ blogId: req.params.postId });
@@ -55,6 +61,24 @@ const blog_specific = async (req, res) => {
   } catch (error) {
     res.status(404).json("Article not found");
   }
+};
+
+//deleting an article and it's comments
+const deleteArticle = async (req, res) => {
+  //Deleting the article----------------------------------------------
+  try {
+    const exist = await Article.exists({ _id: req.params.postId });
+  } catch (error) {
+    return res.status(404).send("Article not found");
+  }
+
+  try {
+    const deletedPost = await Article.deleteOne({ _id: req.params.postId });
+    res.status(201).send("The article has been deleted");
+  } catch (error) {
+    res.status(404).json(error.message);
+  }
+  //--------------------------------------------------------------------------
 };
 
 //posting comments to an article
@@ -70,7 +94,6 @@ const postComments = async (req, res) => {
 
   try {
     const articleExist = await Article.exists({ _id: req.params.postId });
-    res.status(200).send("Article exists");
   } catch (error) {
     return res.status(404).send("Article does not exist");
   }
@@ -89,4 +112,5 @@ export default {
   newArticle,
   blog_specific,
   postComments,
+  deleteArticle,
 };

@@ -42,6 +42,9 @@ router.post("/blog/newArticle", verify, blogControl.postArticle);
 //get a specific post
 router.get("/blog/:postId", blogControl.blog_specific);
 
+//deletet a specific post
+router.delete("/blog/:postId", verify, blogControl.deleteArticle);
+
 //posting comments
 router.post("/blog/:postId", blogControl.postComments);
 

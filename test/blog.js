@@ -159,12 +159,11 @@ describe("The Blog Route", () => {
       });
     });
 
-    //Posting a comment with incorrect blogId
-    it("Shouldn't post a comment with incorrect blogId", (done) => {
-      const blogId = "5f69e2afa50612f957fb7b";
+    //Posting a comment with missing fields
+    it("Shouldn't post a comment with missing field", (done) => {
+      const blogId = "5f69e2afa5060612f957fb7b";
       const comment = new Comments({
         name: "Mark Cuban",
-        discussion: "Great Article",
         blogId: blogId,
       });
       comment.save((err, res) => {
@@ -173,7 +172,7 @@ describe("The Blog Route", () => {
           .post(`/blog/${blogId}`)
           .send(comment)
           .end((err, res) => {
-            expect(res).to.have.status(404);
+            expect(res).to.have.status(400);
             done(err);
           });
       });
