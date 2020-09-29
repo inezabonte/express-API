@@ -4,9 +4,10 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon --exec babel-node app.js",
+    "dev": "nodemon --exec babel-node lib/app.js",
     "test": "nyc mocha --require @babel/register --timeout 60000 --exit || true",
-    "coverage": "nyc report --reporter=text-lcov | coveralls"
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "heroku-postbuild": "babel lib -d dist "
   },
   "author": "Ineza Bonte",
   "license": "ISC",
