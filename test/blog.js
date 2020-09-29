@@ -1,8 +1,8 @@
 import chai, { expect } from "chai";
-import server from "../app";
+import server from "../lib/app";
 import chaiHttp from "chai-http";
-import Articles from "../models/articles";
-import Comments from "../models/comments";
+import Articles from "../lib/models/articles";
+import Comments from "../lib/models/comments";
 import "dotenv/config";
 import fs from "fs";
 
