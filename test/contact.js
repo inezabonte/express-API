@@ -22,7 +22,6 @@ describe("The Contact Route", () => {
     //should send a message
     it("should send message Successfully", (done) => {
       const message = {
-        _id: "",
         name: "James Corden",
         email: "jamescorden@gmail.com",
         message: "Hi can we meet",
@@ -42,6 +41,7 @@ describe("The Contact Route", () => {
 
     // it("should not send message Successfully", (done) => {
     //   const message = {
+    //     _id: "5f731ce86b5cc3505133852b",
     //     name: "James Corden",
     //     email: "jamescorden@gmail.com",
     //     number: "Hi, can we meet",

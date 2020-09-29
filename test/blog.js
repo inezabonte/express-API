@@ -159,6 +159,29 @@ describe("The Blog Route", () => {
       });
     });
 
+    //posting complete comments
+    it("Should post the comment", (done) => {
+      const blogId = "5f69e2afa5060612f957fb7b";
+      const comment = {
+        name: "James Conan",
+        discussion: "Great article",
+        blogId: "5f69e2afa5060612f957fb7b",
+      };
+      chai
+        .request(server)
+        .post(`/blog/${blogId}`)
+        .send(comment)
+        .end((err, res) => {
+          console.log(res.body);
+          if (err) done(err);
+          expect(res.body.name).to.equal("James Conan");
+          expect(res.body.discussion).to.equal("Great article");
+          expect(res.body.blogId).to.equal(blogId);
+          expect(res).to.have.status(201);
+          done();
+        });
+    });
+
     //Posting a comment with missing fields
     it("Shouldn't post a comment with missing field", (done) => {
       const blogId = "5f69e2afa5060612f957fb7b";
