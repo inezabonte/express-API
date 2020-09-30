@@ -1,8 +1,8 @@
 import chai, { expect } from "chai";
-import server from "../app";
+import server from "../lib/app";
 import chaiHttp from "chai-http";
-import Articles from "../models/articles";
-import Comments from "../models/comments";
+import Articles from "../lib/models/articles";
+import Comments from "../lib/models/comments";
 import "dotenv/config";
 import fs from "fs";
 
@@ -159,37 +159,22 @@ describe("The Blog Route", () => {
       });
     });
 
-    //Posting a comment with missing fields
-    it("Shouldn't post a comment with missing field", (done) => {
+    //posting complete comments
+    it("Should post the comment", (done) => {
       const blogId = "5f69e2afa5060612f957fb7b";
-      const comment = new Comments({
-        name: "Mark Cuban",
-        blogId: blogId,
-      });
-      comment.save((err, res) => {
-        chai
-          .request(server)
-          .post(`/blog/${blogId}`)
-          .send(comment)
-          .end((err, res) => {
-            expect(res).to.have.status(400);
-            done(err);
-          });
-      });
+      const comment = {
+        name: "James Conan",
+        discussion: "Great article",
+      };
+      chai
+        .request(server)
+        .post(`/blog/${blogId}`)
+        .send(comment)
+        .end((err, res) => {
+          if (err) done(err);
+          expect(res).to.have.status(201);
+          done();
+        });
     });
-
-    // it("Should confirm article exists", (done) => {
-    //   const blogId = "5f69e2afa5060612f957fb7b";
-    //   Articles.exists({ _id: blogId }, (err, res) => {
-    //     chai
-    //       .request(server)
-    //       .post(`/blog/${blogId}`)
-    //       .end((err, res) => {
-    //         if (err) done(err);
-    //         expect(res).to.have.status(200);
-    //         done();
-    //       });
-    //   });
-    // });
   });
 });
