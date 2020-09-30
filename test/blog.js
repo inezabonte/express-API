@@ -165,54 +165,16 @@ describe("The Blog Route", () => {
       const comment = {
         name: "James Conan",
         discussion: "Great article",
-        blogId: "5f69e2afa5060612f957fb7b",
       };
       chai
         .request(server)
         .post(`/blog/${blogId}`)
         .send(comment)
         .end((err, res) => {
-          console.log(res.body);
           if (err) done(err);
-          expect(res.body.name).to.equal("James Conan");
-          expect(res.body.discussion).to.equal("Great article");
-          expect(res.body.blogId).to.equal(blogId);
           expect(res).to.have.status(201);
           done();
         });
     });
-
-    //Posting a comment with missing fields
-    it("Shouldn't post a comment with missing field", (done) => {
-      const blogId = "5f69e2afa5060612f957fb7b";
-      const comment = new Comments({
-        name: "Mark Cuban",
-        blogId: blogId,
-      });
-      comment.save((err, res) => {
-        chai
-          .request(server)
-          .post(`/blog/${blogId}`)
-          .send(comment)
-          .end((err, res) => {
-            expect(res).to.have.status(400);
-            done(err);
-          });
-      });
-    });
-
-    // it("Should confirm article exists", (done) => {
-    //   const blogId = "5f69e2afa5060612f957fb7b";
-    //   Articles.exists({ _id: blogId }, (err, res) => {
-    //     chai
-    //       .request(server)
-    //       .post(`/blog/${blogId}`)
-    //       .end((err, res) => {
-    //         if (err) done(err);
-    //         expect(res).to.have.status(200);
-    //         done();
-    //       });
-    //   });
-    // });
   });
 });

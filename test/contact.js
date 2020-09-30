@@ -39,24 +39,22 @@ describe("The Contact Route", () => {
         });
     });
 
-    // it("should not send message Successfully", (done) => {
-    //   const message = {
-    //     _id: "5f731ce86b5cc3505133852b",
-    //     name: "James Corden",
-    //     email: "jamescorden@gmail.com",
-    //     number: "Hi, can we meet",
-    //   };
-    //   chai
-    //     .request(server)
-    //     .post("/contact")
-    //     .send(message)
-    //     .end((err, res) => {
-    //       console.log(err);
-    //       if (err) done(err);
-    //       expect(res).status(400);
-    //       expect(res).to.be.a("Object");
-    //       done();
-    //     });
-    // });
+    it("should not send message Successfully", (done) => {
+      const message = {
+        name: "James Corden",
+        email: "jamescorden@gmail.com",
+        number: "Hi, can we meet",
+      };
+      chai
+        .request(server)
+        .post("/contact")
+        .send(message)
+        .end((err, res) => {
+          if (err) done(err);
+          expect(res).status(400);
+          expect(res).to.be.a("Object");
+          done();
+        });
+    });
   });
 });
