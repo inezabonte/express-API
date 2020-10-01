@@ -1,4 +1,4 @@
-# express-app
+# express-API
 
 [![Build Status](https://travis-ci.com/inezabonte/express-app.svg?branch=testing)](https://travis-ci.com/inezabonte/express-app)
 
